@@ -62,7 +62,9 @@ elseif (WINDOWING_SYSTEM STREQUAL "Wayland")
     target_compile_definitions(xWindow PUBLIC -D_WS_WAYLAND)
 
     target_sources(xWindow PRIVATE
+            ${INC}/Platform/xdg-shell-client-protocol.h
             ${INC}/Platform/WaylandWindow.hpp
+            ${SRC}/Platform/xdg-shell-client-protocol.c
             ${SRC}/Platform/WaylandWindow.cpp
     )
 

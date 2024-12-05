@@ -12,9 +12,9 @@ namespace x {
     class INativeWindow {
     public:
         explicit INativeWindow(const str& title, const int width = 800, const int height = 600)
-            : mIsMinimized(false), mIsMaximized(false), mTitle(title), mWidth(width),
-              mHeight(height), mShouldExit(false) {
-            mEventDispatcher = std::make_shared<EventDispatcher>();
+            : _maximized(false), _minimized(false), _title(title), _width(width), _height(height),
+              _shouldExit(false) {
+            _eventDispatcher = std::make_shared<EventDispatcher>();
         }
 
         virtual ~INativeWindow() = default;
@@ -28,7 +28,7 @@ namespace x {
         virtual void dispatchMessages()                = 0;
 
         [[nodiscard]] bool shouldExit() const {
-            return mShouldExit;
+            return _shouldExit;
         }
 
         friend class Win32Window;
@@ -37,18 +37,18 @@ namespace x {
         friend class CocoaWindow;
 
     protected:
-        Shared<EventDispatcher> mEventDispatcher;
+        Shared<EventDispatcher> _eventDispatcher;
 
     private:
-        bool mIsMinimized;
-        bool mIsMaximized;
-        str mTitle;
-        i32 mWidth;
-        i32 mHeight;
-        bool mShouldExit;
+        bool _maximized;
+        bool _minimized;
+        str _title;
+        i32 _width;
+        i32 _height;
+        bool _shouldExit;
 
         void setShouldExit(const bool shouldExit) {
-            mShouldExit = shouldExit;
+            _shouldExit = shouldExit;
         }
     };
 }  // namespace x

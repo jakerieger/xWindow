@@ -19,5 +19,9 @@ namespace x {
         void close() override;
         void blitImage(const vector<u8>& data) override;
         void dispatchMessages() override;
+
+    private:
+        struct WaylandWindowImpl;
+        Unique<WaylandWindowImpl> _impl;
     };
 }  // namespace x

@@ -4,13 +4,46 @@
 
 #include "Platform/WaylandWindow.hpp"
 
+#include <wayland-client.h>
+#include <wayland-client-protocol.h>
+#include <wayland-egl.h>
+#include "Platform/xdg-shell-client-protocol.h"
+
 namespace x {
+    struct WaylandWindow::WaylandWindowImpl {
+        wl_display* display       = nullptr;
+        wl_compositor* compositor = nullptr;
+        wl_surface* surface       = nullptr;
+        xdg_wm_base* wmBase       = nullptr;
+        xdg_surface* xdgSurface   = nullptr;
+        xdg_toplevel* xdgTopLevel = nullptr;
+
+        WaylandWindowImpl(const str& title, int width, int height) {
+            // Initialization code for Wayland
+            display = wl_display_connect(nullptr);
+            // Create surface, etc.
+        }
+
+        ~WaylandWindowImpl() {
+            // Cleanup Wayland resources
+            if (surface) wl_surface_destroy(surface);
+            if (display) wl_display_disconnect(display);
+        }
+
+        void show() {
+            // Implementation for showing the window
+        }
+    };
+
     WaylandWindow::WaylandWindow(const str& title, const int width, const int height)
-        : INativeWindow(title, width, height) {}
+        : INativeWindow(title, width, height),
+          _impl(std::make_unique<WaylandWindowImpl>(title, width, height)) {}
 
-    WaylandWindow::~WaylandWindow() {}
+    WaylandWindow::~WaylandWindow() = default;
 
-    void WaylandWindow::show() {}
+    void WaylandWindow::show() {
+        _impl->show();
+    }
 
     void WaylandWindow::hide() {}
 
