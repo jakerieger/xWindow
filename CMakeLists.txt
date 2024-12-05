@@ -26,8 +26,11 @@ add_library(xWindow STATIC
         ${SHARED}/Panic.hpp
         ${SHARED}/Expect.hpp
         ${SHARED}/IO.hpp
+        ${SHARED}/EventSystem.hpp
 
         # INCLUDES
+        ${INC}/Events.hpp
+        ${INC}/NativeWindow.hpp
         ${INC}/Window.hpp
 
         # SOURCES
@@ -58,17 +61,15 @@ elseif (WINDOWING_SYSTEM STREQUAL "Wayland")
     add_definitions(-D_WS_WAYLAND)
     target_compile_definitions(xWindow PUBLIC -D_WS_WAYLAND)
 
-    #    target_sources(xWindow PRIVATE
-    #            ${INC}/Platform/WaylandWindow.h
-    #            ${INC}/Platform/XdgShellClient.h
-    #            ${SRC}/XdgShell.c
-    #    )
-    #
-    #    target_link_libraries(xWindow PRIVATE
-    #            wayland-client
-    #            wayland-egl
-    #            blend2d::blend2d
-    #    )
+    target_sources(xWindow PRIVATE
+            ${INC}/Platform/WaylandWindow.hpp
+            ${SRC}/Platform/WaylandWindow.cpp
+    )
+
+    target_link_libraries(xWindow PRIVATE
+            wayland-client
+            wayland-egl
+    )
 elseif (WINDOWING_SYSTEM STREQUAL "Apple")
     target_compile_definitions(xWindow PUBLIC -D_WS_APPLE)
 
@@ -77,3 +78,7 @@ elseif (WINDOWING_SYSTEM STREQUAL "Apple")
     #            ${SRCDIR}/AppleWindow.cpp
     #    )
 endif ()
+
+# Build demo
+message("-- Building xWindow Demo.")
+add_subdirectory(Demo)

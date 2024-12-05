@@ -4,12 +4,11 @@
 
 #pragma once
 
+#include "NativeWindow.hpp"
+
 namespace x {
-
-class INativeWindow;
-
-class Window {
-
-};
-
-} // x
+    class Window {
+    public:
+        static Unique<INativeWindow> Create(const str& title, int width = 800, int height = 600);
+    };
+}  // namespace x
