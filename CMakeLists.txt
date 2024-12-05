@@ -42,11 +42,10 @@ add_library(xWindow STATIC
 if (WINDOWING_SYSTEM STREQUAL "Win32")
     target_compile_definitions(xWindow PUBLIC -D_WS_WINDOWS)
 
-    #    target_sources(xWindow PRIVATE
-    #            ${INC}/Platform/Win32Window.h
-    #    )
-    #
-    #    target_link_libraries(xWindow PRIVATE blend2d::blend2d)
+    target_sources(xWindow PRIVATE
+            ${INC}/Platform/Win32Window.hpp
+            ${SRC}/Platform/Win32Window.cpp
+    )
 elseif (WINDOWING_SYSTEM STREQUAL "X11")
     add_definitions(-D_WS_X11)
     target_compile_definitions(xWindow PUBLIC -D_WS_X11)

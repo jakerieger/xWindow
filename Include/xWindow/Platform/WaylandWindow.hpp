@@ -21,7 +21,7 @@ namespace x {
         void dispatchMessages() override;
 
     private:
-        struct WaylandWindowImpl;
-        Unique<WaylandWindowImpl> _impl;
+        struct Impl;
+        Unique<Impl> _impl;
     };
 }  // namespace x

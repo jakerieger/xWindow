@@ -3,3 +3,25 @@
 //
 
 #pragma once
+
+#include "NativeWindow.hpp"
+
+namespace x {
+    class Win32Window final : public INativeWindow {
+    public:
+        Win32Window(const str& title, int width, int height);
+
+        ~Win32Window() override;
+        void show() override;
+        void hide() override;
+        void minimize() override;
+        void toggleMaximize() override;
+        void close() override;
+        void blitImage(const vector<u8>& data) override;
+        void dispatchMessages() override;
+
+    private:
+        struct Impl;
+        Unique<Impl> _impl;
+    };
+}  // namespace x

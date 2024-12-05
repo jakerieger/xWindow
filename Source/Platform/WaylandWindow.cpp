@@ -10,7 +10,7 @@
 #include "Platform/xdg-shell-client-protocol.h"
 
 namespace x {
-    struct WaylandWindow::WaylandWindowImpl {
+    struct WaylandWindow::Impl {
         wl_display* display       = nullptr;
         wl_compositor* compositor = nullptr;
         wl_surface* surface       = nullptr;
@@ -18,13 +18,13 @@ namespace x {
         xdg_surface* xdgSurface   = nullptr;
         xdg_toplevel* xdgTopLevel = nullptr;
 
-        WaylandWindowImpl(const str& title, int width, int height) {
+        Impl(const str& title, int width, int height) {
             // Initialization code for Wayland
             display = wl_display_connect(nullptr);
             // Create surface, etc.
         }
 
-        ~WaylandWindowImpl() {
+        ~Impl() {
             // Cleanup Wayland resources
             if (surface) wl_surface_destroy(surface);
             if (display) wl_display_disconnect(display);
@@ -49,7 +49,7 @@ namespace x {
 
     WaylandWindow::WaylandWindow(const str& title, const int width, const int height)
         : INativeWindow(title, width, height),
-          _impl(std::make_unique<WaylandWindowImpl>(title, width, height)) {}
+          _impl(std::make_unique<Impl>(title, width, height)) {}
 
     WaylandWindow::~WaylandWindow() = default;
 
