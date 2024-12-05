@@ -50,10 +50,10 @@ elseif (WINDOWING_SYSTEM STREQUAL "X11")
     add_definitions(-D_WS_X11)
     target_compile_definitions(xWindow PUBLIC -D_WS_X11)
 
-    #    target_sources(xWindow PRIVATE
-    #            ${INC}/Platform/X11Window.hpp
-    #            ${SRC}/Platform/X11Window.cpp
-    #    )
+    target_sources(xWindow PRIVATE
+            ${INC}/Platform/X11Window.hpp
+            ${SRC}/Platform/X11Window.cpp
+    )
 
     target_link_libraries(xWindow PRIVATE X11)
 elseif (WINDOWING_SYSTEM STREQUAL "Wayland")
