@@ -33,6 +33,18 @@ namespace x {
         void show() {
             // Implementation for showing the window
         }
+
+        void hide() {}
+
+        void minimize() {}
+
+        void restore() {}
+
+        void maximize() {}
+
+        void close() {}
+
+        void dispatch() {}
     };
 
     WaylandWindow::WaylandWindow(const str& title, const int width, const int height)
@@ -45,15 +57,27 @@ namespace x {
         _impl->show();
     }
 
-    void WaylandWindow::hide() {}
+    void WaylandWindow::hide() {
+        _impl->hide();
+    }
 
-    void WaylandWindow::minimize() {}
+    void WaylandWindow::minimize() {
+        _impl->minimize();
+    }
 
-    void WaylandWindow::toggleMaximize() {}
+    void WaylandWindow::toggleMaximize() {
+        if (_maximized) _impl->restore();
+        else _impl->maximize();
+        _maximized = !_maximized;
+    }
 
-    void WaylandWindow::close() {}
+    void WaylandWindow::close() {
+        _impl->close();
+    }
 
     void WaylandWindow::blitImage(const vector<u8>& data) {}
 
-    void WaylandWindow::dispatchMessages() {}
+    void WaylandWindow::dispatchMessages() {
+        _impl->dispatch();
+    }
 }  // namespace x
