@@ -6,6 +6,12 @@
 
 #include "NativeWindow.hpp"
 
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+
+#include <Windows.h>
+#include <windowsx.h>
+
 namespace x {
     class Win32Window final : public INativeWindow {
     public:
@@ -19,9 +25,20 @@ namespace x {
         void close() override;
         void blitImage(const vector<u8>& data) override;
         void dispatchMessages() override;
+        void* getNativeWindowHandle() override;
+        bool shouldExit() override;
+        void setShouldExit(bool exit) override;
 
     private:
-        struct Impl;
-        Unique<Impl> _impl;
+        HWND _hwnd;
+        LPCSTR _className;
+        LPCSTR _title;
+        MSG _msg;
+        int _width, _height;
+        bool _shouldExit = false;
+        bool _maximized  = false;
+
+        ATOM registerClass(HINSTANCE hInstance) const;
+        void initInstance(HINSTANCE hInstance);
     };
 }  // namespace x

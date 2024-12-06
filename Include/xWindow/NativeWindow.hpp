@@ -11,9 +11,7 @@
 namespace x {
     class INativeWindow {
     public:
-        explicit INativeWindow(const str& title, const int width = 800, const int height = 600)
-            : _maximized(false), _minimized(false), _title(title), _width(width), _height(height),
-              _shouldExit(false) {
+        explicit INativeWindow() {
             _eventDispatcher = std::make_shared<EventDispatcher>();
         }
 
@@ -26,9 +24,17 @@ namespace x {
         virtual void close()                           = 0;
         virtual void blitImage(const vector<u8>& data) = 0;
         virtual void dispatchMessages()                = 0;
+        virtual void* getNativeWindowHandle()          = 0;
+        virtual bool shouldExit()                      = 0;
+        virtual void setShouldExit(bool exit)          = 0;
 
-        [[nodiscard]] bool shouldExit() const {
-            return _shouldExit;
+        template<typename EventType>
+        void registerListener(std::function<void(const EventType&)> callback) {
+            _eventDispatcher->registerListener(callback);
+        }
+
+        EventDispatcher& getEventDispatcher() const {
+            return *_eventDispatcher;
         }
 
         friend class Win32Window;
@@ -38,17 +44,5 @@ namespace x {
 
     protected:
         Shared<EventDispatcher> _eventDispatcher;
-
-    private:
-        bool _maximized;
-        bool _minimized;
-        str _title;
-        i32 _width;
-        i32 _height;
-        bool _shouldExit;
-
-        void setShouldExit(const bool shouldExit) {
-            _shouldExit = shouldExit;
-        }
     };
 }  // namespace x

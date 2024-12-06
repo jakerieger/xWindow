@@ -8,6 +8,11 @@
 #include <EventSystem.hpp>
 
 namespace x {
+    class ExitEvent final : public IEvent {
+    public:
+        ExitEvent() = default;
+    };
+
     class PaintEvent final : public IEvent {
     public:
         PaintEvent() = default;
